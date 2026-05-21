@@ -4,6 +4,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { CreateOperatorPage } from './pages/admin/CreateOperatorPage';
+import { CreateMissionPage } from './pages/admin/CreateMissionPage';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { NotFoundPage } from './pages/NotFoundPage';
 
@@ -42,6 +43,14 @@ export function App() {
               <ProtectedLayout allowedRoles={['Admin']}>
                 <AdminDashboard />
               </ProtectedLayout>
+            }
+          />
+          <Route
+            path="/admin/missions/create"
+            element={
+              <ProtectedRoute allowedRoles={['Admin']}>
+                <CreateMissionPage />
+              </ProtectedRoute>
             }
           />
           <Route
