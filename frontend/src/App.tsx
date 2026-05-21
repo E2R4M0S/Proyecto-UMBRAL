@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { LoginPage } from './pages/LoginPage';
+import { RegisterPage } from './pages/RegisterPage';
+import { CreateOperatorPage } from './pages/admin/CreateOperatorPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import type { ReactNode } from 'react';
 
@@ -43,6 +45,15 @@ export function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/admin/operators/create"
+            element={
+              <ProtectedRoute allowedRoles={['Admin']}>
+                <CreateOperatorPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/admin/*"
             element={

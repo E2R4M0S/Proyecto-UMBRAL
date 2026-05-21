@@ -33,4 +33,21 @@ public class AuthController : ControllerBase
             return Unauthorized(new { message = "Credenciales inválidas" });
         }
     }
+
+    [HttpPost("register")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Register([FromBody] RegisterParticipantRequest request)
+    {
+        try
+        {
+            var command = new RegisterParticipantCommand(
+                request.Name, request.Alias, request.Email, request.Password);
+            var response = await _mediator.Send(command);
+            return Created(string.Empty, response);
+        }
+        catch (ConflictException ex)
+        {
+            return Conflict(new { message = ex.Message });
+        }
+    }
 }

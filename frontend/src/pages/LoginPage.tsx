@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -210,6 +210,27 @@ export function LoginPage() {
             {submitting ? 'Ingresando...' : 'Ingresar'}
           </button>
         </form>
+
+        <p
+          style={{
+            textAlign: 'center',
+            marginTop: '24px',
+            fontSize: '14px',
+            color: '#6b6375',
+          }}
+        >
+          ¿No tiene una cuenta?{' '}
+          <Link
+            to="/register"
+            style={{
+              color: '#aa3bff',
+              textDecoration: 'none',
+              fontWeight: 500,
+            }}
+          >
+            Registrarse
+          </Link>
+        </p>
       </div>
     </div>
   );

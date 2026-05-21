@@ -1,5 +1,9 @@
 import { apiClient } from './apiClient';
-import type { LoginRequest, LoginResponse } from '../types/auth';
+import type {
+  LoginRequest,
+  LoginResponse,
+  RegisterParticipantRequest,
+} from '../types/auth';
 
 const AUTH_TOKEN_KEY = 'authToken';
 
@@ -15,6 +19,17 @@ export async function login(
 
 export function logout(): void {
   localStorage.removeItem(AUTH_TOKEN_KEY);
+}
+
+export async function register(
+  data: RegisterParticipantRequest
+): Promise<LoginResponse> {
+  const response = await apiClient.post<LoginResponse>(
+    '/auth/register',
+    data
+  );
+  localStorage.setItem(AUTH_TOKEN_KEY, response.token);
+  return response;
 }
 
 export function getToken(): string | null {

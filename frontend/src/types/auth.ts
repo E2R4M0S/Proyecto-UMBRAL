@@ -12,6 +12,23 @@ export interface LoginResponse {
   role: string;
 }
 
+export interface RegisterParticipantRequest {
+  name: string;
+  alias: string;
+  email: string;
+  password: string;
+}
+
+export interface CreateOperatorRequest {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export interface CreateOperatorResponse {
+  userId: string;
+}
+
 export interface User {
   id: string;
   name: string;
