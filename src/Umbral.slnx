@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Umbral.Api/Umbral.Api.csproj" />
+  <Project Path="Umbral.Application/Umbral.Application.csproj" />
+  <Project Path="Umbral.Domain/Umbral.Domain.csproj" />
+  <Project Path="Umbral.Infrastructure/Umbral.Infrastructure.csproj" />
+</Solution>

@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: umbral-db
+    environment:
+      POSTGRES_DB: umbral
+      POSTGRES_USER: umbral
+      POSTGRES_PASSWORD: umbral123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - umbral-network
+
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    container_name: umbral-queue
+    ports:
+      - "5672:5672"   # AMQP
+      - "15672:15672" # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: umbral
+      RABBITMQ_DEFAULT_PASS: umbral123
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - umbral-network
+
+volumes:
+  postgres_data:
+  rabbitmq_data:
+
+networks:
+  umbral-network:
+    driver: bridge
