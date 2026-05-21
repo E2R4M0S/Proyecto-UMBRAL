@@ -12,6 +12,9 @@ public class User
     public UserRole Role { get; private set; }
     public UserStatus Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
+    public string? Alias => _alias;
+
+    private string? _alias;
 
     private User() { }
 
@@ -29,6 +32,18 @@ public class User
         Role = role;
         Status = UserStatus.Active;
         CreatedAt = DateTime.UtcNow;
+    }
+
+    public User(
+        Guid id,
+        string name,
+        Email email,
+        string passwordHash,
+        UserRole role,
+        Alias alias)
+        : this(id, name, email, passwordHash, role)
+    {
+        _alias = alias.Value;
     }
 
     public bool IsActive() => Status == UserStatus.Active;

@@ -41,5 +41,14 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(u => u.CreatedAt)
             .IsRequired();
+
+        builder.Property(u => u.Alias)
+            .HasMaxLength(20);
+
+        builder.HasIndex(u => u.Email).IsUnique();
+
+        builder.HasIndex(u => u.Alias)
+            .IsUnique()
+            .HasFilter("[Alias] IS NOT NULL");
     }
 }
