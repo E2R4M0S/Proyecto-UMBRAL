@@ -15,6 +15,7 @@ export interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<User>;
   logout: () => void;
+  setAuthFromToken: (token: string) => void;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -74,6 +75,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
     []
   );
 
+  const setAuthFromToken = useCallback((token: string) => {
+    const payload = decodeTokenPayload(token);
+    if (payload?.sub) {
+      setUser({
+        id: payload.sub,
+        name: payload.name ?? '',
+        email: payload.email ?? '',
+        role: payload.role ?? '',
+      });
+      setToken(token);
+    }
+  }, []);
+
   const logout = useCallback(() => {
     authService.logout();
     setUser(null);
@@ -87,6 +101,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     isLoading,
     login,
     logout,
+    setAuthFromToken,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

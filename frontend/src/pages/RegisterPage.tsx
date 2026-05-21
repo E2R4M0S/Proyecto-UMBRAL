@@ -1,6 +1,7 @@
-import { useState, type FormEvent } from 'react';
+import { useState, useContext, type FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import * as authService from '../services/authService';
+import { AuthContext } from '../contexts/AuthContext';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ALIAS_REGEX = /^[a-zA-Z0-9_]{3,20}$/;
@@ -26,6 +27,7 @@ const linkStyle: Record<string, string> = {
 
 export function RegisterPage() {
   const navigate = useNavigate();
+  const auth = useContext(AuthContext);
 
   const [name, setName] = useState('');
   const [alias, setAlias] = useState('');
@@ -79,7 +81,8 @@ export function RegisterPage() {
 
     setSubmitting(true);
     try {
-      await authService.register({ name: name.trim(), alias: alias.trim(), email: email.trim(), password });
+      const response = await authService.register({ name: name.trim(), alias: alias.trim(), email: email.trim(), password });
+      auth?.setAuthFromToken(response.token);
       navigate('/participant/dashboard', { replace: true });
     } catch (err: unknown) {
       const message =
