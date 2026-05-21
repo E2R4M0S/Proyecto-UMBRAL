@@ -4,37 +4,19 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { CreateOperatorPage } from './pages/admin/CreateOperatorPage';
+import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { NotFoundPage } from './pages/NotFoundPage';
-import type { ReactNode } from 'react';
-
-function DashboardPlaceholder({ title }: { title: string }) {
-  return (
-    <div
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontFamily: 'system-ui, Segoe UI, Roboto, sans-serif',
-        color: '#6b6375',
-        fontSize: '24px',
-      }}
-    >
-      {title}
-    </div>
-  );
-}
 
 function ProtectedLayout({
   allowedRoles,
-  title,
+  children,
 }: {
   allowedRoles: string[];
-  title: string;
-}): ReactNode {
+  children: React.ReactNode;
+}) {
   return (
     <ProtectedRoute allowedRoles={allowedRoles}>
-      <DashboardPlaceholder title={title} />
+      {children}
     </ProtectedRoute>
   );
 }
@@ -55,30 +37,57 @@ export function App() {
             }
           />
           <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedLayout allowedRoles={['Admin']}>
+                <AdminDashboard />
+              </ProtectedLayout>
+            }
+          />
+          <Route
             path="/admin/*"
             element={
-              <ProtectedLayout
-                allowedRoles={['Admin']}
-                title="Panel de Administración"
-              />
+              <ProtectedLayout allowedRoles={['Admin']}>
+                <AdminDashboard />
+              </ProtectedLayout>
             }
           />
           <Route
             path="/operator/*"
             element={
-              <ProtectedLayout
-                allowedRoles={['Operator']}
-                title="Panel de Operador"
-              />
+              <ProtectedRoute allowedRoles={['Operator']}>
+                <div style={{
+                  minHeight: '100vh',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontFamily: 'system-ui, Segoe UI, Roboto, sans-serif',
+                  color: '#6b6375',
+                  fontSize: '24px',
+                  background: '#f4f3ec',
+                }}>
+                  Panel de Operador
+                </div>
+              </ProtectedRoute>
             }
           />
           <Route
             path="/participant/*"
             element={
-              <ProtectedLayout
-                allowedRoles={['Participant']}
-                title="Panel de Participante"
-              />
+              <ProtectedRoute allowedRoles={['Participant']}>
+                <div style={{
+                  minHeight: '100vh',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontFamily: 'system-ui, Segoe UI, Roboto, sans-serif',
+                  color: '#6b6375',
+                  fontSize: '24px',
+                  background: '#f4f3ec',
+                }}>
+                  Panel de Participante
+                </div>
+              </ProtectedRoute>
             }
           />
           <Route path="/" element={<Navigate to="/login" replace />} />
