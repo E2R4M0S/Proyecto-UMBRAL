@@ -8,6 +8,7 @@ namespace Umbral.Infrastructure.Persistence;
 public class UmbralDbContext : DbContext
 {
     public DbSet<User> Users => Set<User>();
+    public DbSet<Mission> Missions => Set<Mission>();
 
     public UmbralDbContext(DbContextOptions<UmbralDbContext> options)
         : base(options)
