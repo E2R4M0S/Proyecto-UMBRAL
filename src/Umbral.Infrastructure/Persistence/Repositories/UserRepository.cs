@@ -16,9 +16,8 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetByEmailAsync(Email email)
     {
-        var emailValue = email.Value;
         return await _context.Users
-            .FirstOrDefaultAsync(u => EF.Property<string>(u, "Email") == emailValue);
+            .FirstOrDefaultAsync(u => u.Email == email);
     }
 
     public async Task<User?> GetByIdAsync(Guid id)
@@ -30,21 +29,20 @@ public class UserRepository : IUserRepository
     {
         var aliasValue = alias.Value;
         return await _context.Users
-            .FirstOrDefaultAsync(u => EF.Property<string>(u, "Alias") == aliasValue);
+            .FirstOrDefaultAsync(u => u.Alias != null && u.Alias == aliasValue);
     }
 
     public async Task<bool> ExistsByEmailAsync(Email email)
     {
-        var emailValue = email.Value;
         return await _context.Users
-            .AnyAsync(u => EF.Property<string>(u, "Email") == emailValue);
+            .AnyAsync(u => u.Email == email);
     }
 
     public async Task<bool> ExistsByAliasAsync(Alias alias)
     {
         var aliasValue = alias.Value;
         return await _context.Users
-            .AnyAsync(u => EF.Property<string>(u, "Alias") == aliasValue);
+            .AnyAsync(u => u.Alias != null && u.Alias == aliasValue);
     }
 
     public async Task AddAsync(User user)
