@@ -15,8 +15,17 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddDbContext<UmbralDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+        // Allow test project to override the database provider via config
+        if (string.Equals(configuration["UseInMemoryDatabase"], "true", StringComparison.OrdinalIgnoreCase))
+        {
+            services.AddDbContext<UmbralDbContext>(options =>
+                options.UseInMemoryDatabase("UmbralTestDb"));
+        }
+        else
+        {
+            services.AddDbContext<UmbralDbContext>(options =>
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+        }
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IMissionRepository, MissionRepository>();
