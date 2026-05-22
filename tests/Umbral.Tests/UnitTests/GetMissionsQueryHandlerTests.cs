@@ -142,7 +142,7 @@ public class GetMissionsQueryHandlerTests
 
     private static Mission CreateMission(Guid id, string title, MissionDifficulty difficulty, MissionStatus status)
     {
-        var mission = new Mission(id, MissionTitle.Create(title), $"Description for {title}", difficulty, 30);
+        var mission = new Mission(id, MissionTitle.Create(title), $"Description for {title}", difficulty, 30, MissionType.Tesoro);
 
         // Use reflection to set Status since it has a private setter
         var statusField = typeof(Mission).GetProperty("Status")!;

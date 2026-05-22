@@ -30,7 +30,8 @@ public class GetMissionByIdQueryHandlerTests
             MissionTitle.Create("Rescate en montaña"),
             "Rescatar a un escalador herido",
             MissionDifficulty.Dificil,
-            60);
+            60,
+            MissionType.Tesoro);
 
         _repositoryMock
             .Setup(r => r.GetByIdAsync(missionId))

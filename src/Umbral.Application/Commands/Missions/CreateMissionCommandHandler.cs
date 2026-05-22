@@ -37,12 +37,20 @@ public class CreateMissionCommandHandler : IRequestHandler<CreateMissionCommand,
             _ => throw new ArgumentException($"Invalid difficulty: {request.Difficulty}", nameof(request.Difficulty))
         };
 
+        var type = request.Type switch
+        {
+            "Tesoro" => MissionType.Tesoro,
+            "Trivia" => MissionType.Trivia,
+            _ => throw new ArgumentException("Invalid mission type. Must be 'Tesoro' or 'Trivia'.", nameof(request.Type))
+        };
+
         var mission = new Mission(
             Guid.NewGuid(),
             title,
             request.Description,
             difficulty,
-            request.TimeMinutes);
+            request.TimeMinutes,
+            type);
 
         await _missionRepository.AddAsync(mission);
 

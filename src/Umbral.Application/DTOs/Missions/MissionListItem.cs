@@ -7,4 +7,5 @@ public record MissionListItem(
     Guid Id,
     string Title,
     string Difficulty,
+    string Type,
     string Status);

@@ -29,6 +29,7 @@ public class GetMissionByIdQueryHandler : IRequestHandler<GetMissionByIdQuery, M
             mission.Description,
             mission.Difficulty.ToString(),
             mission.TimeMinutes,
+            mission.Type.ToString(),
             mission.Status.ToString(),
             mission.CreatedAt,
             mission.UpdatedAt);

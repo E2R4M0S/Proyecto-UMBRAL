@@ -9,6 +9,7 @@ public record MissionDetail(
     string? Description,
     string Difficulty,
     int TimeMinutes,
+    string Type,
     string Status,
     DateTime CreatedAt,
     DateTime? UpdatedAt);

@@ -29,6 +29,11 @@ public class MissionConfiguration : IEntityTypeConfiguration<Mission>
             .HasConversion<string>()
             .HasMaxLength(20);
 
+        builder.Property(m => m.Type)
+            .IsRequired()
+            .HasConversion<string>()
+            .HasMaxLength(20);
+
         builder.Property(m => m.Status)
             .IsRequired()
             .HasConversion<string>()

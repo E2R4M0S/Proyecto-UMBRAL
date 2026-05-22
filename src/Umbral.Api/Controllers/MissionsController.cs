@@ -66,7 +66,7 @@ public class MissionsController : ControllerBase
     {
         try
         {
-            var command = new CreateMissionCommand(request.Title, request.Description, request.Difficulty, request.TimeMinutes);
+            var command = new CreateMissionCommand(request.Title, request.Description, request.Difficulty, request.TimeMinutes, request.Type);
             var response = await _mediator.Send(command);
             return Created(string.Empty, response);
         }

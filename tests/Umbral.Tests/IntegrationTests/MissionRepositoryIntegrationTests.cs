@@ -206,7 +206,7 @@ public class MissionRepositoryIntegrationTests : IClassFixture<UmbralWebApplicat
 
     private static Mission CreateMission(string title, MissionDifficulty difficulty, MissionStatus status)
     {
-        var mission = new Mission(Guid.NewGuid(), MissionTitle.Create(title), $"Description for {title}", difficulty, 30);
+        var mission = new Mission(Guid.NewGuid(), MissionTitle.Create(title), $"Description for {title}", difficulty, 30, MissionType.Tesoro);
         var statusProp = typeof(Mission).GetProperty("Status")!;
         statusProp.SetValue(mission, status);
         return mission;

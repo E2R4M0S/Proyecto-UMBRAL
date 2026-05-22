@@ -19,6 +19,11 @@ public class CreateMissionCommandValidator : AbstractValidator<CreateMissionComm
             .Must(d => d is "Facil" or "Media" or "Dificil")
             .WithMessage("Difficulty must be 'Facil', 'Media', or 'Dificil'.");
 
+        RuleFor(x => x.Type)
+            .NotEmpty().WithMessage("Type is required.")
+            .Must(t => t is "Tesoro" or "Trivia")
+            .WithMessage("Type must be 'Tesoro' or 'Trivia'.");
+
         RuleFor(x => x.TimeMinutes)
             .Must(t => t is 15 or 30 or 60 or 90)
             .WithMessage("TimeMinutes must be 15, 30, 60, or 90.");

@@ -30,6 +30,7 @@ public class GetMissionsQueryHandler : IRequestHandler<GetMissionsQuery, Paginat
                 m.Id,
                 m.Title.ToString(),
                 m.Difficulty.ToString(),
+                m.Type.ToString(),
                 m.Status.ToString()))
             .ToList();
 
