@@ -10,6 +10,8 @@ public class UmbralDbContext : DbContext
     public DbSet<User> Users => Set<User>();
     public DbSet<Mission> Missions => Set<Mission>();
     public DbSet<Team> Teams => Set<Team>();
+    public DbSet<Session> Sessions => Set<Session>();
+    public DbSet<SessionTeam> SessionTeams => Set<SessionTeam>();
 
     public UmbralDbContext(DbContextOptions<UmbralDbContext> options)
         : base(options)
