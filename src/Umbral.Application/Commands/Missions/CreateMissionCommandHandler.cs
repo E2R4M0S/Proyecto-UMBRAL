@@ -26,9 +26,9 @@ public class CreateMissionCommandHandler : IRequestHandler<CreateMissionCommand,
             throw new ConflictException("A mission with this title already exists.");
 
         // Defense-in-depth: validate TimeMinutes even though FluentValidation already checks
-        if (request.TimeMinutes is not (13 or 30 or 60 or 90))
-            throw new ArgumentException("TimeMinutes must be 13, 30, 60, or 90.", nameof(request.TimeMinutes));
+        if (request.TimeMinutes is not (15 or 30 or 60 or 90))
 
+            throw new ArgumentException("TimeMinutes must be 15, 30, 60, or 90.", nameof(request.TimeMinutes));
         var difficulty = request.Difficulty switch
         {
             "Facil" => MissionDifficulty.Facil,

@@ -20,7 +20,7 @@ public class CreateMissionCommandValidator : AbstractValidator<CreateMissionComm
             .WithMessage("Difficulty must be 'Facil', 'Media', or 'Dificil'.");
 
         RuleFor(x => x.TimeMinutes)
-            .Must(t => t is 13 or 30 or 60 or 90)
-            .WithMessage("TimeMinutes must be 13, 30, 60, or 90.");
+            .Must(t => t is 15 or 30 or 60 or 90)
+            .WithMessage("TimeMinutes must be 15, 30, 60, or 90.");
     }
 }

@@ -9,7 +9,7 @@ const DIFFICULTY_OPTIONS = [
 ] as const;
 
 const TIME_OPTIONS = [
-  { label: '13 minutos', value: 13 },
+  { label: '15 minutos', value: 15 },
   { label: '30 minutos', value: 30 },
   { label: '60 minutos', value: 60 },
   { label: '90 minutos', value: 90 },
@@ -32,7 +32,7 @@ export function CreateMissionPage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [difficulty, setDifficulty] = useState('Facil');
-  const [timeMinutes, setTimeMinutes] = useState(13);
+  const [timeMinutes, setTimeMinutes] = useState(15);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<{ missionId: string } | null>(null);
   const [fieldErrors, setFieldErrors] = useState<
