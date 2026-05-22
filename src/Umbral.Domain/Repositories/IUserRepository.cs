@@ -11,4 +11,5 @@ public interface IUserRepository
     Task<bool> ExistsByEmailAsync(Email email);
     Task<bool> ExistsByAliasAsync(Alias alias);
     Task AddAsync(User user);
+    Task<List<User>> GetParticipantsByIdsAsync(List<Guid> ids);
 }

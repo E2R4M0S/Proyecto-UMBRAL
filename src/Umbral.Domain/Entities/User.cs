@@ -12,6 +12,9 @@ public class User
     public UserRole Role { get; private set; }
     public UserStatus Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
+    public Guid? TeamId { get; private set; }
+    public Team? Team { get; private set; }
+
     public string? Alias => _alias;
 
     private string? _alias;
@@ -47,4 +50,16 @@ public class User
     }
 
     public bool IsActive() => Status == UserStatus.Active;
+
+    public void AssignToTeam(Team team)
+    {
+        TeamId = team.Id;
+        Team = team;
+    }
+
+    public void RemoveFromTeam()
+    {
+        TeamId = null;
+        Team = null;
+    }
 }

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Umbral.Domain.Entities;
+using Umbral.Domain.Enums;
 using Umbral.Domain.Repositories;
 using Umbral.Domain.ValueObjects;
 
@@ -49,5 +50,12 @@ public class UserRepository : IUserRepository
     {
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<User>> GetParticipantsByIdsAsync(List<Guid> ids)
+    {
+        return await _context.Users
+            .Where(u => ids.Contains(u.Id) && u.Role == UserRole.Participant)
+            .ToListAsync();
     }
 }
