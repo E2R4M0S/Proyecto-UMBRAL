@@ -16,7 +16,7 @@ const cardStyle: Record<string, string> = {
   gap: '8px',
 };
 
-export function AdminDashboard() {
+export function OperatorDashboard() {
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
 
@@ -26,18 +26,6 @@ export function AdminDashboard() {
       description: 'Explorar y consultar las misiones disponibles en el sistema',
       path: '/missions',
       icon: '📋',
-    },
-    {
-      title: 'Crear Operador',
-      description: 'Registrar una nueva cuenta de operador en el sistema',
-      path: '/admin/operators/create',
-      icon: '👤',
-    },
-    {
-      title: 'Crear Misión',
-      description: 'Crear una nueva misión con narrativa y parámetros',
-      path: '/admin/missions/create',
-      icon: '➕',
     },
   ];
 
@@ -68,7 +56,7 @@ export function AdminDashboard() {
             margin: 0,
           }}
         >
-          Panel de Administración
+          Panel de Operador
         </h1>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <span style={{ fontSize: '14px', color: '#6b6375' }}>
@@ -109,7 +97,7 @@ export function AdminDashboard() {
             marginBottom: '32px',
           }}
         >
-          Seleccioná una opción del panel para gestionar el sistema
+          Operador — seleccioná una opción para gestionar el sistema
         </p>
 
         <div

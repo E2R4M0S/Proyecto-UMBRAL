@@ -6,6 +6,10 @@ import { RegisterPage } from './pages/RegisterPage';
 import { CreateOperatorPage } from './pages/admin/CreateOperatorPage';
 import { CreateMissionPage } from './pages/admin/CreateMissionPage';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
+import { MissionCatalogPage } from './pages/catalog/MissionCatalogPage';
+import { MissionDetailPage } from './pages/catalog/MissionDetailPage';
+import { OperatorDashboard } from './pages/operator/OperatorDashboard';
+import { ParticipantDashboard } from './pages/participant/ParticipantDashboard';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 function ProtectedLayout({
@@ -62,21 +66,42 @@ export function App() {
             }
           />
           <Route
+            path="/missions"
+            element={
+              <ProtectedRoute allowedRoles={['Admin', 'Operator', 'Participant']}>
+                <MissionCatalogPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/missions/:id"
+            element={
+              <ProtectedRoute allowedRoles={['Admin', 'Operator', 'Participant']}>
+                <MissionDetailPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/operator/dashboard"
+            element={
+              <ProtectedRoute allowedRoles={['Operator']}>
+                <OperatorDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/operator/*"
             element={
               <ProtectedRoute allowedRoles={['Operator']}>
-                <div style={{
-                  minHeight: '100vh',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  fontFamily: 'system-ui, Segoe UI, Roboto, sans-serif',
-                  color: '#6b6375',
-                  fontSize: '24px',
-                  background: '#f4f3ec',
-                }}>
-                  Panel de Operador
-                </div>
+                <OperatorDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/participant/dashboard"
+            element={
+              <ProtectedRoute allowedRoles={['Participant']}>
+                <ParticipantDashboard />
               </ProtectedRoute>
             }
           />
@@ -84,18 +109,7 @@ export function App() {
             path="/participant/*"
             element={
               <ProtectedRoute allowedRoles={['Participant']}>
-                <div style={{
-                  minHeight: '100vh',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  fontFamily: 'system-ui, Segoe UI, Roboto, sans-serif',
-                  color: '#6b6375',
-                  fontSize: '24px',
-                  background: '#f4f3ec',
-                }}>
-                  Panel de Participante
-                </div>
+                <ParticipantDashboard />
               </ProtectedRoute>
             }
           />
