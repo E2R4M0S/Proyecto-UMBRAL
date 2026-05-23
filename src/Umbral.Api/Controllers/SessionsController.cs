@@ -106,4 +106,26 @@ public class SessionsController : ControllerBase
             return BadRequest(new { message = ex.Message, param = ex.ParamName });
         }
     }
+
+    /// <summary>
+    /// PATCH /api/sessions/{id}/status — transition session through its lifecycle.
+    /// </summary>
+    [HttpPatch("{id:guid}/status")]
+    public async Task<IActionResult> UpdateStatus(Guid id, [FromBody] UpdateSessionStatusRequest request)
+    {
+        try
+        {
+            var command = new UpdateSessionStatusCommand(id, request.Status);
+            await _mediator.Send(command);
+            return NoContent();
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(new { message = ex.Message });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
 }
