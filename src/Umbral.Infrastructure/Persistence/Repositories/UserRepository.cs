@@ -26,6 +26,11 @@ public class UserRepository : IUserRepository
         return await _context.Users.FindAsync(id);
     }
 
+    public async Task<User?> GetByIdWithTrackingAsync(Guid id)
+    {
+        return await _context.Users.FindAsync(id);
+    }
+
     public async Task<User?> GetByAliasAsync(Alias alias)
     {
         var aliasValue = alias.Value;
@@ -49,6 +54,12 @@ public class UserRepository : IUserRepository
     public async Task AddAsync(User user)
     {
         await _context.Users.AddAsync(user);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UpdateAsync(User user)
+    {
+        _context.Users.Update(user);
         await _context.SaveChangesAsync();
     }
 
