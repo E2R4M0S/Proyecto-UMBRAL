@@ -99,7 +99,7 @@ public class GetActiveSessionsQueryHandlerTests
     {
         var missionId = Guid.NewGuid();
         var mission = new Mission(missionId, MissionTitle.Create($"Mission for {name}"), null, MissionDifficulty.Facil, 30, MissionType.Tesoro);
-        SetPrivateField(mission, "Status", MissionStatus.Publicada);
+        SetPrivateField(mission, "Status", MissionStatus.Activa);
 
         var session = new Session(id, name, missionId, "1234");
         SetPrivateField(session, "Status", status);

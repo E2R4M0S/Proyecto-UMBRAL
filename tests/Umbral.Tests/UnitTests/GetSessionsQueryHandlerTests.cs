@@ -172,7 +172,7 @@ public class GetSessionsQueryHandlerTests
     private static Session CreateSession(Guid id, string name, Guid missionId, SessionStatus status)
     {
         var mission = new Mission(missionId, MissionTitle.Create($"Mission for {name}"), null, MissionDifficulty.Facil, 30, MissionType.Tesoro);
-        SetPrivateField(mission, "Status", MissionStatus.Publicada);
+        SetPrivateField(mission, "Status", MissionStatus.Activa);
 
         var session = new Session(id, name, missionId, "1234");
         SetPrivateField(session, "Status", status);
@@ -186,7 +186,7 @@ public class GetSessionsQueryHandlerTests
     {
         var missionId = Guid.NewGuid();
         var mission = new Mission(missionId, MissionTitle.Create($"Mission for {name}"), null, MissionDifficulty.Facil, 30, MissionType.Tesoro);
-        SetPrivateField(mission, "Status", MissionStatus.Publicada);
+        SetPrivateField(mission, "Status", MissionStatus.Activa);
 
         var session = new Session(id, name, missionId, "1234");
         SetPrivateField(session, "Status", SessionStatus.Activa);
@@ -209,10 +209,14 @@ public class GetSessionsQueryHandlerTests
 
     private static void SetPrivateField<T>(object obj, string fieldName, T value)
     {
-        var field = obj.GetType().GetProperty(fieldName) ?? obj.GetType().GetField(fieldName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!;
-        if (field is System.Reflection.PropertyInfo prop)
+        var prop = obj.GetType().GetProperty(fieldName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+        if (prop is not null)
+        {
             prop.SetValue(obj, value);
-        else if (field is System.Reflection.FieldInfo f)
-            f.SetValue(obj, value);
+            return;
+        }
+
+        var field = obj.GetType().GetField(fieldName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+        field?.SetValue(obj, value);
     }
 }

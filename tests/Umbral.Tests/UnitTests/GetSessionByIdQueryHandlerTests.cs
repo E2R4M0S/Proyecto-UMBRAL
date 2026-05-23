@@ -27,7 +27,7 @@ public class GetSessionByIdQueryHandlerTests
         var sessionId = Guid.NewGuid();
         var missionId = Guid.NewGuid();
         var mission = new Mission(missionId, MissionTitle.Create("Rescate Alpha"), "Desc", MissionDifficulty.Dificil, 60, MissionType.Tesoro);
-        SetPrivateField(mission, "Status", MissionStatus.Publicada);
+        SetPrivateField(mission, "Status", MissionStatus.Activa);
 
         var session = new Session(sessionId, "Sesión Mañana", missionId, "9876");
         SetPrivateField(session, "Status", SessionStatus.Activa);
@@ -83,7 +83,7 @@ public class GetSessionByIdQueryHandlerTests
         var sessionId = Guid.NewGuid();
         var missionId = Guid.NewGuid();
         var mission = new Mission(missionId, MissionTitle.Create("Solo Mission"), null, MissionDifficulty.Facil, 30, MissionType.Tesoro);
-        SetPrivateField(mission, "Status", MissionStatus.Publicada);
+        SetPrivateField(mission, "Status", MissionStatus.Activa);
 
         var session = new Session(sessionId, "Empty Teams", missionId, "0000");
         SetPrivateField(session, "Status", SessionStatus.Programada);
