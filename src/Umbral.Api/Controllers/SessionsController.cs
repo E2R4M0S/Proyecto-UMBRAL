@@ -33,9 +33,17 @@ public class SessionsController : ControllerBase
         [FromQuery] DateTime? fromDate = null,
         [FromQuery] DateTime? toDate = null)
     {
-        var query = new GetSessionsQuery(page, pageSize, missionId, status, fromDate, toDate);
-        var result = await _mediator.Send(query);
-        return Ok(result);
+        try
+        {
+            var query = new GetSessionsQuery(page, pageSize, missionId, status, fromDate, toDate);
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+        catch (ValidationException ex)
+        {
+            var errors = ex.Errors.Select(e => new { field = e.PropertyName, message = e.ErrorMessage });
+            return BadRequest(new { message = "Validation failed.", errors });
+        }
     }
 
     /// <summary>

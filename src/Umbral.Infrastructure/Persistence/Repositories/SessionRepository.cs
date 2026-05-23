@@ -56,7 +56,9 @@ public class SessionRepository : ISessionRepository
         page = Math.Max(1, page);
         pageSize = Math.Clamp(pageSize, 1, 50);
 
-        IQueryable<Session> query = _context.Sessions.AsNoTracking();
+        IQueryable<Session> query = _context.Sessions
+            .AsNoTracking()
+            .Include(s => s.Mission);
 
         if (filter.MissionId.HasValue)
             query = query.Where(s => s.MissionId == filter.MissionId.Value);
@@ -87,6 +89,7 @@ public class SessionRepository : ISessionRepository
 
         return await _context.Sessions
             .AsNoTracking()
+            .Include(s => s.Mission)
             .Where(s => activeStatuses.Contains(s.Status))
             .OrderByDescending(s => s.StartedAt ?? DateTime.MinValue)
             .ToListAsync();
