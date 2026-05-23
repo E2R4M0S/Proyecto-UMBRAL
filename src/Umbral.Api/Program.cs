@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Umbral.Application;
 using Umbral.Infrastructure;
+using Umbral.Infrastructure.Middlewares;
 using Umbral.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,6 +66,9 @@ app.UseSerilogRequestLogging();
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<ActiveUserMiddleware>();
+
 app.MapControllers();
 
 app.Run();

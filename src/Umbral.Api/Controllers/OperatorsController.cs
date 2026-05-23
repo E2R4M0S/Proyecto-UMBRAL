@@ -33,4 +33,23 @@ public class OperatorsController : ControllerBase
             return Conflict(new { message = ex.Message });
         }
     }
+
+    [HttpPatch("{id:guid}/deactivate")]
+    public async Task<IActionResult> Deactivate(Guid id)
+    {
+        try
+        {
+            var command = new DeactivateOperatorCommand(id);
+            await _mediator.Send(command);
+            return Ok(new { message = "Operator deactivated successfully." });
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(new { message = ex.Message });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
 }
