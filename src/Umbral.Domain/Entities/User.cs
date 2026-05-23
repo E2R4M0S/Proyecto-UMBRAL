@@ -12,6 +12,7 @@ public class User
     public UserRole Role { get; private set; }
     public UserStatus Status { get; private set; }
     public DateTime CreatedAt { get; private set; }
+    public string SecurityStamp { get; private set; } = null!;
     public Guid? TeamId { get; private set; }
     public Team? Team { get; private set; }
 
@@ -34,6 +35,7 @@ public class User
         PasswordHash = passwordHash;
         Role = role;
         Status = UserStatus.Active;
+        SecurityStamp = Guid.NewGuid().ToString();
         CreatedAt = DateTime.UtcNow;
     }
 
@@ -50,6 +52,15 @@ public class User
     }
 
     public bool IsActive() => Status == UserStatus.Active;
+
+    public void Deactivate()
+    {
+        if (Status == UserStatus.Inactive)
+            throw new InvalidOperationException("User is already inactive.");
+
+        Status = UserStatus.Inactive;
+        SecurityStamp = Guid.NewGuid().ToString();
+    }
 
     public void AssignToTeam(Team team)
     {
