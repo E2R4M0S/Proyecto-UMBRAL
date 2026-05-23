@@ -73,4 +73,22 @@ public class User
         TeamId = null;
         Team = null;
     }
+
+    public void UpdateName(string newName)
+    {
+        if (string.IsNullOrWhiteSpace(newName))
+            throw new ArgumentException("Name cannot be empty.", nameof(newName));
+        Name = newName;
+    }
+
+    public void UpdateAlias(Alias newAlias)
+    {
+        _alias = newAlias.Value;
+    }
+
+    public void ChangePassword(string newPasswordHash)
+    {
+        PasswordHash = newPasswordHash;
+        SecurityStamp = Guid.NewGuid().ToString();
+    }
 }
