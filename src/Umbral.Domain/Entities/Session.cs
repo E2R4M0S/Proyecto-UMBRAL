@@ -28,4 +28,43 @@ public class Session
         Status = SessionStatus.Programada;
         CreatedAt = DateTime.UtcNow;
     }
+
+    public void MoveToPreparing()
+    {
+        if (Status != SessionStatus.Programada)
+            throw new InvalidOperationException($"Cannot transition from {Status} to EnPreparacion.");
+        Status = SessionStatus.EnPreparacion;
+    }
+
+    public void Activate()
+    {
+        if (Status != SessionStatus.EnPreparacion && Status != SessionStatus.Pausada)
+            throw new InvalidOperationException($"Cannot transition from {Status} to Activa.");
+        Status = SessionStatus.Activa;
+        StartedAt ??= DateTime.UtcNow;
+    }
+
+    public void Pause()
+    {
+        if (Status != SessionStatus.Activa)
+            throw new InvalidOperationException($"Cannot transition from {Status} to Pausada.");
+        Status = SessionStatus.Pausada;
+    }
+
+    public void Resume() => Activate();
+
+    public void Finalize()
+    {
+        if (Status != SessionStatus.Activa && Status != SessionStatus.Pausada)
+            throw new InvalidOperationException($"Cannot transition from {Status} to Finalizada.");
+        Status = SessionStatus.Finalizada;
+        EndedAt = DateTime.UtcNow;
+    }
+
+    public void Cancel()
+    {
+        if (Status is SessionStatus.Finalizada or SessionStatus.Cancelada)
+            throw new InvalidOperationException($"Cannot cancel a session in {Status} state.");
+        Status = SessionStatus.Cancelada;
+    }
 }

@@ -19,4 +19,6 @@ public interface ISessionRepository
     /// Returns all sessions with status Activa or EnPreparacion, ordered by StartedAt descending.
     /// </summary>
     Task<List<Session>> GetActiveAsync();
+
+    Task UpdateAsync(Session session);
 }
