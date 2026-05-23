@@ -53,7 +53,9 @@ public class Session
 
     public void Resume() => Activate();
 
+#pragma warning disable CS0465 // 'Finalize' is a reserved method name in .NET
     public void Finalize()
+#pragma warning restore CS0465
     {
         if (Status != SessionStatus.Activa && Status != SessionStatus.Pausada)
             throw new InvalidOperationException($"Cannot transition from {Status} to Finalizada.");
