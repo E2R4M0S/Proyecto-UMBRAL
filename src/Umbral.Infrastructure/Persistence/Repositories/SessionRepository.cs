@@ -83,6 +83,12 @@ public class SessionRepository : ISessionRepository
         return new PaginatedResult<Session>(items, page, pageSize, totalCount);
     }
 
+    public async Task UpdateAsync(Session session)
+    {
+        _context.Sessions.Update(session);
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<List<Session>> GetActiveAsync()
     {
         var activeStatuses = new[] { SessionStatus.Activa, SessionStatus.EnPreparacion };
