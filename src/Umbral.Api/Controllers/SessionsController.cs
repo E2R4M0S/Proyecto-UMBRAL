@@ -127,5 +127,10 @@ public class SessionsController : ControllerBase
         {
             return BadRequest(new { message = ex.Message });
         }
+        catch (ValidationException ex)
+        {
+            var errors = ex.Errors.Select(e => new { field = e.PropertyName, message = e.ErrorMessage });
+            return BadRequest(new { message = "Validation failed.", errors });
+        }
     }
 }
