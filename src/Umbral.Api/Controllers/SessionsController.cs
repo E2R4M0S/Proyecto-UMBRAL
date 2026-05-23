@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Umbral.Application.Commands.Sessions;
 using Umbral.Application.Common.Exceptions;
 using Umbral.Application.DTOs.Sessions;
+using Umbral.Application.Queries.Sessions;
 
 namespace Umbral.Api.Controllers;
 
@@ -18,6 +19,52 @@ public class SessionsController : ControllerBase
     public SessionsController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+
+    /// <summary>
+    /// GET /api/sessions — paginated, filterable session list.
+    /// </summary>
+    [HttpGet]
+    public async Task<IActionResult> GetAll(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10,
+        [FromQuery] Guid? missionId = null,
+        [FromQuery] string? status = null,
+        [FromQuery] DateTime? fromDate = null,
+        [FromQuery] DateTime? toDate = null)
+    {
+        var query = new GetSessionsQuery(page, pageSize, missionId, status, fromDate, toDate);
+        var result = await _mediator.Send(query);
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// GET /api/sessions/active — list active and preparing sessions.
+    /// Must be declared BEFORE the {id:guid} route to avoid conflicts.
+    /// </summary>
+    [HttpGet("active")]
+    public async Task<IActionResult> GetActive()
+    {
+        var result = await _mediator.Send(new GetActiveSessionsQuery());
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// GET /api/sessions/{id} — full session detail with mission info and teams.
+    /// </summary>
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        try
+        {
+            var query = new GetSessionByIdQuery(id);
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(new { message = ex.Message });
+        }
     }
 
     /// <summary>
