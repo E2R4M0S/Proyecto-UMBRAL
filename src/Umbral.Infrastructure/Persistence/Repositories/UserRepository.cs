@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Umbral.Domain.Entities;
 using Umbral.Domain.Enums;
+using Umbral.Domain.Primitives;
 using Umbral.Domain.Repositories;
 using Umbral.Domain.ValueObjects;
 
@@ -61,6 +62,33 @@ public class UserRepository : IUserRepository
     {
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<PaginatedResult<User>> GetAllAsync(int page, int pageSize, string? role = null, string? status = null, string? search = null)
+    {
+        page = Math.Max(1, page);
+        pageSize = Math.Clamp(pageSize, 1, 50);
+
+        IQueryable<User> query = _context.Users.AsNoTracking();
+
+        if (!string.IsNullOrWhiteSpace(role))
+            query = query.Where(u => u.Role.ToString() == role);
+
+        if (!string.IsNullOrWhiteSpace(status))
+            query = query.Where(u => u.Status.ToString() == status);
+
+        if (!string.IsNullOrWhiteSpace(search))
+            query = query.Where(u => u.Name.Contains(search) || u.Email.Value.Contains(search));
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderBy(u => u.Name)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return new PaginatedResult<User>(items, page, pageSize, totalCount);
     }
 
     public async Task<List<User>> GetParticipantsByIdsAsync(List<Guid> ids)
